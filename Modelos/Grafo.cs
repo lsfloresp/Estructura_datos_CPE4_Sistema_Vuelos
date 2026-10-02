@@ -26,5 +26,17 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             listaAdyacencia[origen].Add(vuelo);
         }
+        public void MostrarListaAdyacencia()
+        {
+            foreach (var ciudad in listaAdyacencia)
+            {
+                Console.WriteLine($"Ciudad: {ciudad.Key}");
+
+                foreach (var vuelo in ciudad.Value)
+                {
+                    Console.WriteLine($"  -> {vuelo.Destino} | ${vuelo.Precio:F2}");
+                }
+            }
+        }
     }
 }
