@@ -24,3 +24,10 @@ grafo.MostrarMatrizAdyacencia();
 
 Console.WriteLine();
 grafo.BFS("Quito");
+
+Console.WriteLine();
+grafo.DFS("Quito");
+
+Console.WriteLine();
+Console.WriteLine("¿Existe camino entre Quito y Bogotá?");
+Console.WriteLine(grafo.ExisteCamino("Quito", "Bogotá"));
