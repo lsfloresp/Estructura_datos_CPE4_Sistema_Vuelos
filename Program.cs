@@ -31,3 +31,17 @@ grafo.DFS("Quito");
 Console.WriteLine();
 Console.WriteLine("¿Existe camino entre Quito y Bogotá?");
 Console.WriteLine(grafo.ExisteCamino("Quito", "Bogotá"));
+
+Console.WriteLine();
+Console.WriteLine("VUELO MÁS BARATO");
+Vuelo? vueloBarato = grafo.BuscarVueloMasBarato("Quito", "Guayaquil");
+
+if (vueloBarato != null)
+{
+    Console.WriteLine($"Vuelo: {vueloBarato.Origen} -> {vueloBarato.Destino}");
+    Console.WriteLine($"Precio: ${vueloBarato.Precio:F2}");
+}
+else
+{
+    Console.WriteLine("No existe un vuelo directo entre esas ciudades.");
+}
