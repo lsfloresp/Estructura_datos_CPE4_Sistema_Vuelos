@@ -21,3 +21,6 @@ grafo.MostrarListaAdyacencia();
 Console.WriteLine();
 Console.WriteLine("MATRIZ DE ADYACENCIA");
 grafo.MostrarMatrizAdyacencia();
+
+Console.WriteLine();
+grafo.BFS("Quito");
