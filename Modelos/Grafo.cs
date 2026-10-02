@@ -117,7 +117,9 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
         }
         public void DFS(string inicio)
         {
-            if (!listaAdyacencia.ContainsKey(inicio))
+            string? inicioReal = BuscarCiudad(inicio);
+
+            if (inicioReal == null)
             {
                 Console.WriteLine("La ciudad no existe en el grafo.");
                 return;
@@ -127,7 +129,7 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             Console.Write("DFS: ");
 
-            DFSRecursivo(inicio, visitados);
+            DFSRecursivo(inicioReal, visitados);
 
             Console.WriteLine();
         }

@@ -63,7 +63,11 @@ do
 
         case 4:
             Console.WriteLine("RECORRIDO DFS");
-            grafo.DFS("Quito");
+
+            Console.Write("Ingrese ciudad de inicio: ");
+            string inicioDFS = Console.ReadLine()!.Trim();
+
+            grafo.DFS(inicioDFS);
             break;
 
         case 5:
