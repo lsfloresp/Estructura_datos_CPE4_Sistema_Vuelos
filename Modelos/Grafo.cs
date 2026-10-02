@@ -145,8 +145,10 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
         }
         public bool ExisteCamino(string origen, string destino)
         {
-            if (!listaAdyacencia.ContainsKey(origen) ||
-                !listaAdyacencia.ContainsKey(destino))
+            string? origenReal = BuscarCiudad(origen);
+            string? destinoReal = BuscarCiudad(destino);
+
+            if (origenReal == null || destinoReal == null)
             {
                 return false;
             }
@@ -154,14 +156,14 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
             HashSet<string> visitados = new HashSet<string>();
             Queue<string> cola = new Queue<string>();
 
-            visitados.Add(origen);
-            cola.Enqueue(origen);
+            visitados.Add(origenReal);
+            cola.Enqueue(origenReal);
 
             while (cola.Count > 0)
             {
                 string ciudadActual = cola.Dequeue();
 
-                if (ciudadActual == destino)
+                if (ciudadActual == destinoReal)
                 {
                     return true;
                 }
@@ -200,7 +202,50 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             return vueloMasBarato;
         }
-        
+        private string? BuscarCiudad(string nombre)
+        {
+            string entrada = nombre.Trim();
+
+            foreach (string ciudad in listaAdyacencia.Keys)
+            {
+                if (string.Equals(ciudad, entrada, StringComparison.OrdinalIgnoreCase))
+                {
+                    return ciudad;
+                }
+
+                string ciudadSinTilde = ciudad
+                    .Replace("á", "a")
+                    .Replace("é", "e")
+                    .Replace("í", "i")
+                    .Replace("ó", "o")
+                    .Replace("ú", "u")
+                    .Replace("Á", "A")
+                    .Replace("É", "E")
+                    .Replace("Í", "I")
+                    .Replace("Ó", "O")
+                    .Replace("Ú", "U");
+
+                string entradaSinTilde = entrada
+                    .Replace("á", "a")
+                    .Replace("é", "e")
+                    .Replace("í", "i")
+                    .Replace("ó", "o")
+                    .Replace("ú", "u")
+                    .Replace("Á", "A")
+                    .Replace("É", "E")
+                    .Replace("Í", "I")
+                    .Replace("Ó", "O")
+                    .Replace("Ú", "U");
+
+                if (string.Equals(ciudadSinTilde, entradaSinTilde,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    return ciudad;
+                }
+            }
+
+            return null;
+        }
         public void BuscarRutaMasBarata(string origen, string destino)
         {
             if (!listaAdyacencia.ContainsKey(origen) ||

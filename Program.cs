@@ -64,7 +64,24 @@ do
 
         case 5:
             Console.WriteLine("BÚSQUEDA DE CAMINO");
-            Console.WriteLine(grafo.ExisteCamino("Quito", "Bogotá"));
+
+            Console.Write("Ingrese ciudad de origen: ");
+            string origenCamino = Console.ReadLine()!;
+
+            Console.Write("Ingrese ciudad de destino: ");
+            string destinoCamino = Console.ReadLine()!;
+
+            bool existeCamino = grafo.ExisteCamino(origenCamino, destinoCamino);
+
+            if (existeCamino)
+            {
+                Console.WriteLine($"Existe un camino entre {origenCamino} y {destinoCamino}.");
+            }
+            else
+            {
+                Console.WriteLine($"No existe un camino entre {origenCamino} y {destinoCamino}.");
+            }
+
             break;
 
         case 6:
