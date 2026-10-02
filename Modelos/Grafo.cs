@@ -200,9 +200,86 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             return vueloMasBarato;
         }
+        
         public void BuscarRutaMasBarata(string origen, string destino)
         {
-            
+            if (!listaAdyacencia.ContainsKey(origen) ||
+                !listaAdyacencia.ContainsKey(destino))
+            {
+                Console.WriteLine("Una de las ciudades no existe en el grafo.");
+                return;
+            }
+
+            Dictionary<string, double> distancias = new Dictionary<string, double>();
+            Dictionary<string, string?> anteriores = new Dictionary<string, string?>();
+
+            foreach (string ciudad in listaAdyacencia.Keys)
+            {
+                distancias[ciudad] = double.MaxValue;
+                anteriores[ciudad] = null;
+            }
+
+            distancias[origen] = 0;
+
+            HashSet<string> visitados = new HashSet<string>();
+
+            while (visitados.Count < listaAdyacencia.Count)
+            {
+                string ciudadActual = "";
+                double menorDistancia = double.MaxValue;
+
+                foreach (string ciudad in listaAdyacencia.Keys)
+                {
+                    if (!visitados.Contains(ciudad) &&
+                        distancias[ciudad] < menorDistancia)
+                    {
+                        menorDistancia = distancias[ciudad];
+                        ciudadActual = ciudad;
+                    }
+                }
+
+                if (ciudadActual == "")
+                {
+                    break;
+                }
+
+                visitados.Add(ciudadActual);
+
+                foreach (Vuelo vuelo in listaAdyacencia[ciudadActual])
+                {
+                    if (!visitados.Contains(vuelo.Destino))
+                    {
+                        double nuevaDistancia =
+                            distancias[ciudadActual] + vuelo.Precio;
+
+                        if (nuevaDistancia < distancias[vuelo.Destino])
+                        {
+                            distancias[vuelo.Destino] = nuevaDistancia;
+                            anteriores[vuelo.Destino] = ciudadActual;
+                        }
+                    }
+                }
+            }
+
+            if (distancias[destino] == double.MaxValue)
+            {
+                Console.WriteLine("No existe una ruta entre las ciudades indicadas.");
+                return;
+            }
+
+            List<string> ruta = new List<string>();
+            string? ciudadRuta = destino;
+
+            while (ciudadRuta != null)
+            {
+                ruta.Add(ciudadRuta);
+                ciudadRuta = anteriores[ciudadRuta];
+            }
+
+            ruta.Reverse();
+
+            Console.WriteLine($"Ruta más barata: {string.Join(" -> ", ruta)}");
+            Console.WriteLine($"Costo total: ${distancias[destino]:F2}");
         }
     }
 }
