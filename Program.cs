@@ -17,3 +17,7 @@ grafo.AgregarVuelo("Bogotá", "Quito", 120);
 grafo.AgregarVuelo("Bogotá", "Guayaquil", 135);
 
 grafo.MostrarListaAdyacencia();
+
+Console.WriteLine();
+Console.WriteLine("MATRIZ DE ADYACENCIA");
+grafo.MostrarMatrizAdyacencia();
