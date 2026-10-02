@@ -255,8 +255,10 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
         }
         public void BuscarRutaMasBarata(string origen, string destino)
         {
-            if (!listaAdyacencia.ContainsKey(origen) ||
-                !listaAdyacencia.ContainsKey(destino))
+            string? origenReal = BuscarCiudad(origen);
+            string? destinoReal = BuscarCiudad(destino);
+
+            if (origenReal == null || destinoReal == null)
             {
                 Console.WriteLine("Una de las ciudades no existe en el grafo.");
                 return;
@@ -271,7 +273,7 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
                 anteriores[ciudad] = null;
             }
 
-            distancias[origen] = 0;
+            distancias[origenReal] = 0;
 
             HashSet<string> visitados = new HashSet<string>();
 
@@ -313,14 +315,14 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
                 }
             }
 
-            if (distancias[destino] == double.MaxValue)
+            if (distancias[destinoReal] == double.MaxValue)
             {
                 Console.WriteLine("No existe una ruta entre las ciudades indicadas.");
                 return;
             }
 
             List<string> ruta = new List<string>();
-            string? ciudadRuta = destino;
+            string? ciudadRuta = destinoReal;
 
             while (ciudadRuta != null)
             {
@@ -331,7 +333,7 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
             ruta.Reverse();
 
             Console.WriteLine($"Ruta más barata: {string.Join(" -> ", ruta)}");
-            Console.WriteLine($"Costo total: ${distancias[destino]:F2}");
+            Console.WriteLine($"Costo total: ${distancias[destinoReal]:F2}");
         }
     }
 }

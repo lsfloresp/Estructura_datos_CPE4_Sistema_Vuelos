@@ -102,7 +102,7 @@ do
             string destinoVuelo = Console.ReadLine()!.Trim();
 
             Vuelo? vueloBarato = grafo.BuscarVueloMasBarato(origenVuelo, destinoVuelo);
-            
+
             if (vueloBarato != null)
             {
                 Console.WriteLine($"Vuelo: {vueloBarato.Origen} -> {vueloBarato.Destino}");
@@ -117,7 +117,14 @@ do
 
         case 7:
             Console.WriteLine("RUTA MÁS BARATA");
-            grafo.BuscarRutaMasBarata("Quito", "Cuenca");
+
+            Console.Write("Ingrese ciudad de origen: ");
+            string origenRuta = Console.ReadLine()!.Trim();
+
+            Console.Write("Ingrese ciudad de destino: ");
+            string destinoRuta = Console.ReadLine()!.Trim();
+
+            grafo.BuscarRutaMasBarata(origenRuta, destinoRuta);
             break;
 
         case 0:
