@@ -113,5 +113,35 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
         Console.WriteLine();
         }
+        public void DFS(string inicio)
+        {
+            if (!listaAdyacencia.ContainsKey(inicio))
+            {
+                Console.WriteLine("La ciudad no existe en el grafo.");
+                return;
+            }
+
+            HashSet<string> visitados = new HashSet<string>();
+
+            Console.Write("DFS: ");
+
+            DFSRecursivo(inicio, visitados);
+
+            Console.WriteLine();
+        }
+        private void DFSRecursivo(string ciudad, HashSet<string> visitados)
+        {
+            visitados.Add(ciudad);
+
+            Console.Write($"{ciudad} ");
+
+            foreach (Vuelo vuelo in listaAdyacencia[ciudad])
+            {
+                if (!visitados.Contains(vuelo.Destino))
+                {
+                    DFSRecursivo(vuelo.Destino, visitados);
+                }
+            }
+        }
     }
 }
