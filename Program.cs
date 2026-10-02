@@ -54,7 +54,11 @@ do
 
         case 3:
             Console.WriteLine("RECORRIDO BFS");
-            grafo.BFS("Quito");
+
+            Console.Write("Ingrese ciudad de inicio: ");
+            string inicioBFS = Console.ReadLine()!.Trim();
+
+            grafo.BFS(inicioBFS);
             break;
 
         case 4:
