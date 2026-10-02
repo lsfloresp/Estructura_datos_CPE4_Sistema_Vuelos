@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
@@ -77,6 +78,40 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             Console.WriteLine();
             }
+        }
+        public void BFS(string inicio)
+        {
+            if (!listaAdyacencia.ContainsKey(inicio))
+            {
+                Console.WriteLine("La ciudad no existe en el grafo.");
+                return;
+            }
+
+            HashSet<string> visitados = new HashSet<string>();
+            Queue<string> cola = new Queue<string>();
+
+            visitados.Add(inicio);
+            cola.Enqueue(inicio);
+
+            Console.Write("BFS: ");
+
+            while (cola.Count > 0)
+            {
+                string ciudadActual = cola.Dequeue();
+
+                Console.Write($"{ciudadActual} ");
+
+                foreach (Vuelo vuelo in listaAdyacencia[ciudadActual])
+                {
+                    if (!visitados.Contains(vuelo.Destino))
+                    {
+                        visitados.Add(vuelo.Destino);
+                        cola.Enqueue(vuelo.Destino);
+                    }
+            }
+        }
+
+        Console.WriteLine();
         }
     }
 }
