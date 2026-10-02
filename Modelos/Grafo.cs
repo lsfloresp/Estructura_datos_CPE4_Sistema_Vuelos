@@ -200,5 +200,9 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             return vueloMasBarato;
         }
+        public void BuscarRutaMasBarata(string origen, string destino)
+        {
+            
+        }
     }
 }
