@@ -17,5 +17,14 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
                 listaAdyacencia[ciudad] = new List<Vuelo>();
             }
         }
+        public void AgregarVuelo(string origen, string destino, double precio)
+        {
+            AgregarCiudad(origen);
+            AgregarCiudad(destino);
+
+            Vuelo vuelo = new Vuelo(origen, destino, precio);
+
+            listaAdyacencia[origen].Add(vuelo);
+        }
     }
 }
