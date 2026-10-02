@@ -38,5 +38,9 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
                 }
             }
         }
+        public List<string> ObtenerCiudades()
+        {
+            return new List<string>(listaAdyacencia.Keys);
+        }
     }
 }
