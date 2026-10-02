@@ -143,5 +143,40 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
                 }
             }
         }
+        public bool ExisteCamino(string origen, string destino)
+        {
+            if (!listaAdyacencia.ContainsKey(origen) ||
+                !listaAdyacencia.ContainsKey(destino))
+            {
+                return false;
+            }
+
+            HashSet<string> visitados = new HashSet<string>();
+            Queue<string> cola = new Queue<string>();
+
+            visitados.Add(origen);
+            cola.Enqueue(origen);
+
+            while (cola.Count > 0)
+            {
+                string ciudadActual = cola.Dequeue();
+
+                if (ciudadActual == destino)
+                {
+                    return true;
+                }
+
+                foreach (Vuelo vuelo in listaAdyacencia[ciudadActual])
+                {
+                    if (!visitados.Contains(vuelo.Destino))
+                    {
+                        visitados.Add(vuelo.Destino);
+                        cola.Enqueue(vuelo.Destino);
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }
