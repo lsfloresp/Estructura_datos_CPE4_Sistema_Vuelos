@@ -186,16 +186,19 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
         }
         public Vuelo? BuscarVueloMasBarato(string origen, string destino)
         {
-            if (!listaAdyacencia.ContainsKey(origen))
+            string? origenReal = BuscarCiudad(origen);
+            string? destinoReal = BuscarCiudad(destino);
+
+            if (origenReal == null || destinoReal == null)
             {
                 return null;
             }
 
             Vuelo? vueloMasBarato = null;
 
-            foreach (Vuelo vuelo in listaAdyacencia[origen])
+            foreach (Vuelo vuelo in listaAdyacencia[origenReal])
             {
-                if (vuelo.Destino == destino)
+                if (vuelo.Destino == destinoReal)
                 {
                     if (vueloMasBarato == null || vuelo.Precio < vueloMasBarato.Precio)
                     {

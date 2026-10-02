@@ -94,8 +94,15 @@ do
 
         case 6:
             Console.WriteLine("VUELO MÁS BARATO");
-            Vuelo? vueloBarato = grafo.BuscarVueloMasBarato("Quito", "Guayaquil");
 
+            Console.Write("Ingrese ciudad de origen: ");
+            string origenVuelo = Console.ReadLine()!.Trim();
+
+            Console.Write("Ingrese ciudad de destino: ");
+            string destinoVuelo = Console.ReadLine()!.Trim();
+
+            Vuelo? vueloBarato = grafo.BuscarVueloMasBarato(origenVuelo, destinoVuelo);
+            
             if (vueloBarato != null)
             {
                 Console.WriteLine($"Vuelo: {vueloBarato.Origen} -> {vueloBarato.Destino}");
