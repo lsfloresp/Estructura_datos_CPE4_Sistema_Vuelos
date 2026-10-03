@@ -6,86 +6,146 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
     public class Grafo
     {
         private Dictionary<string, List<Vuelo>> listaAdyacencia;
+        private Dictionary<string, string> nombresAeropuertos;
 
         public Grafo()
         {
             listaAdyacencia = new Dictionary<string, List<Vuelo>>();
+            nombresAeropuertos = new Dictionary<string, string>();
         }
-        public void AgregarCiudad(string ciudad)
+
+        // ==============================
+        // REGISTRO DE AEROPUERTOS
+        // ==============================
+
+        public void AgregarCiudad(string codigo)
         {
-            if (!listaAdyacencia.ContainsKey(ciudad))
+            if (!listaAdyacencia.ContainsKey(codigo))
             {
-                listaAdyacencia[ciudad] = new List<Vuelo>();
+                listaAdyacencia[codigo] = new List<Vuelo>();
             }
         }
+
+        public void AgregarAeropuerto(string codigo, string ciudad)
+        {
+            codigo = codigo.Trim().ToUpper();
+
+            AgregarCiudad(codigo);
+
+            if (!nombresAeropuertos.ContainsKey(codigo))
+            {
+                nombresAeropuertos.Add(codigo, ciudad);
+            }
+        }
+
+        public void MostrarAeropuertosDisponibles()
+        {
+            Console.WriteLine("AEROPUERTOS DISPONIBLES");
+            Console.WriteLine("--------------------------------");
+
+            foreach (string codigo in listaAdyacencia.Keys)
+            {
+                Console.WriteLine($"{codigo} - {nombresAeropuertos[codigo]}");
+            }
+        }
+
+        // ==============================
+        // REGISTRO DE VUELOS
+        // ==============================
+
         public void AgregarVuelo(string origen, string destino, double precio)
         {
+            origen = origen.Trim().ToUpper();
+            destino = destino.Trim().ToUpper();
+
             AgregarCiudad(origen);
             AgregarCiudad(destino);
 
-            Vuelo vuelo = new Vuelo(origen, destino, precio);
+            Vuelo vueloIda = new Vuelo(origen, destino, precio);
+            Vuelo vueloRegreso = new Vuelo(destino, origen, precio);
 
-            listaAdyacencia[origen].Add(vuelo);
+            listaAdyacencia[origen].Add(vueloIda);
+            listaAdyacencia[destino].Add(vueloRegreso);
         }
+
+        // ==============================
+        // LISTA DE ADYACENCIA
+        // ==============================
+
         public void MostrarListaAdyacencia()
         {
-            foreach (var ciudad in listaAdyacencia)
+            foreach (var aeropuerto in listaAdyacencia)
             {
-                Console.WriteLine($"Ciudad: {ciudad.Key}");
+                Console.WriteLine(
+                    $"{aeropuerto.Key} - {nombresAeropuertos[aeropuerto.Key]}"
+                );
 
-                foreach (var vuelo in ciudad.Value)
+                foreach (Vuelo vuelo in aeropuerto.Value)
                 {
-                    Console.WriteLine($"  -> {vuelo.Destino} | ${vuelo.Precio:F2}");
+                    Console.WriteLine(
+                        $"  -> {vuelo.Destino} | ${vuelo.Precio:F2}"
+                    );
                 }
             }
         }
-        public List<string> ObtenerCiudades()
+
+        // ==============================
+        // MATRIZ DE ADYACENCIA
+        // ==============================
+
+        public List<string> ObtenerAeropuertos()
         {
             return new List<string>(listaAdyacencia.Keys);
         }
+
         public void MostrarMatrizAdyacencia()
         {
-            List<string> ciudades = ObtenerCiudades();
+            List<string> aeropuertos = ObtenerAeropuertos();
 
             Console.Write("          ");
 
-            foreach (string ciudad in ciudades)
+            foreach (string aeropuerto in aeropuertos)
             {
-            Console.Write($"{ciudad,-12}");
+                Console.Write($"{aeropuerto,-12}");
             }
 
             Console.WriteLine();
 
-            foreach (string origen in ciudades)
+            foreach (string origen in aeropuertos)
             {
-            Console.Write($"{origen,-10}");
+                Console.Write($"{origen,-10}");
 
-            foreach (string destino in ciudades)
-            {
-                double precio = 0;
-
-                foreach (Vuelo vuelo in listaAdyacencia[origen])
+                foreach (string destino in aeropuertos)
                 {
-                    if (vuelo.Destino == destino)
+                    double precio = 0;
+
+                    foreach (Vuelo vuelo in listaAdyacencia[origen])
                     {
-                        precio = vuelo.Precio;
-                        break;
+                        if (vuelo.Destino == destino)
+                        {
+                            precio = vuelo.Precio;
+                            break;
+                        }
                     }
+
+                    Console.Write($"{precio,-12:F2}");
                 }
 
-                Console.Write($"{precio,-12:F2}");
-            }
-
-            Console.WriteLine();
+                Console.WriteLine();
             }
         }
+
+        // ==============================
+        // BFS
+        // ==============================
+
         public void BFS(string inicio)
         {
-            string? inicioReal = BuscarCiudad(inicio);
+            string? inicioReal = BuscarAeropuerto(inicio);
 
             if (inicioReal == null)
             {
-                Console.WriteLine("La ciudad no existe en el grafo.");
+                Console.WriteLine("El aeropuerto no existe.");
                 return;
             }
 
@@ -99,11 +159,11 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             while (cola.Count > 0)
             {
-                string ciudadActual = cola.Dequeue();
+                string aeropuertoActual = cola.Dequeue();
 
-                Console.Write($"{ciudadActual} ");
+                Console.Write($"{aeropuertoActual} ");
 
-                foreach (Vuelo vuelo in listaAdyacencia[ciudadActual])
+                foreach (Vuelo vuelo in listaAdyacencia[aeropuertoActual])
                 {
                     if (!visitados.Contains(vuelo.Destino))
                     {
@@ -115,13 +175,18 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             Console.WriteLine();
         }
+
+        // ==============================
+        // DFS
+        // ==============================
+
         public void DFS(string inicio)
         {
-            string? inicioReal = BuscarCiudad(inicio);
+            string? inicioReal = BuscarAeropuerto(inicio);
 
             if (inicioReal == null)
             {
-                Console.WriteLine("La ciudad no existe en el grafo.");
+                Console.WriteLine("El aeropuerto no existe.");
                 return;
             }
 
@@ -133,13 +198,16 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             Console.WriteLine();
         }
-        private void DFSRecursivo(string ciudad, HashSet<string> visitados)
+
+        private void DFSRecursivo(
+            string aeropuerto,
+            HashSet<string> visitados)
         {
-            visitados.Add(ciudad);
+            visitados.Add(aeropuerto);
 
-            Console.Write($"{ciudad} ");
+            Console.Write($"{aeropuerto} ");
 
-            foreach (Vuelo vuelo in listaAdyacencia[ciudad])
+            foreach (Vuelo vuelo in listaAdyacencia[aeropuerto])
             {
                 if (!visitados.Contains(vuelo.Destino))
                 {
@@ -147,10 +215,15 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
                 }
             }
         }
+
+        // ==============================
+        // BÚSQUEDA DE CAMINO
+        // ==============================
+
         public bool ExisteCamino(string origen, string destino)
         {
-            string? origenReal = BuscarCiudad(origen);
-            string? destinoReal = BuscarCiudad(destino);
+            string? origenReal = BuscarAeropuerto(origen);
+            string? destinoReal = BuscarAeropuerto(destino);
 
             if (origenReal == null || destinoReal == null)
             {
@@ -165,14 +238,14 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             while (cola.Count > 0)
             {
-                string ciudadActual = cola.Dequeue();
+                string aeropuertoActual = cola.Dequeue();
 
-                if (ciudadActual == destinoReal)
+                if (aeropuertoActual == destinoReal)
                 {
                     return true;
                 }
 
-                foreach (Vuelo vuelo in listaAdyacencia[ciudadActual])
+                foreach (Vuelo vuelo in listaAdyacencia[aeropuertoActual])
                 {
                     if (!visitados.Contains(vuelo.Destino))
                     {
@@ -184,93 +257,32 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             return false;
         }
-        public Vuelo? BuscarVueloMasBarato(string origen, string destino)
-        {
-            string? origenReal = BuscarCiudad(origen);
-            string? destinoReal = BuscarCiudad(destino);
 
-            if (origenReal == null || destinoReal == null)
-            {
-                return null;
-            }
+        // ==============================
+        // BÚSQUEDA DEL VUELO MÁS BARATO
+        // ==============================
 
-            Vuelo? vueloMasBarato = null;
-
-            foreach (Vuelo vuelo in listaAdyacencia[origenReal])
-            {
-                if (vuelo.Destino == destinoReal)
-                {
-                    if (vueloMasBarato == null || vuelo.Precio < vueloMasBarato.Precio)
-                    {
-                        vueloMasBarato = vuelo;
-                    }
-                }
-            }
-
-            return vueloMasBarato;
-        }
-        private string? BuscarCiudad(string nombre)
-        {
-            string entrada = nombre.Trim();
-
-            foreach (string ciudad in listaAdyacencia.Keys)
-            {
-                if (string.Equals(ciudad, entrada, StringComparison.OrdinalIgnoreCase))
-                {
-                    return ciudad;
-                }
-
-                string ciudadSinTilde = ciudad
-                    .Replace("á", "a")
-                    .Replace("é", "e")
-                    .Replace("í", "i")
-                    .Replace("ó", "o")
-                    .Replace("ú", "u")
-                    .Replace("Á", "A")
-                    .Replace("É", "E")
-                    .Replace("Í", "I")
-                    .Replace("Ó", "O")
-                    .Replace("Ú", "U");
-
-                string entradaSinTilde = entrada
-                    .Replace("á", "a")
-                    .Replace("é", "e")
-                    .Replace("í", "i")
-                    .Replace("ó", "o")
-                    .Replace("ú", "u")
-                    .Replace("Á", "A")
-                    .Replace("É", "E")
-                    .Replace("Í", "I")
-                    .Replace("Ó", "O")
-                    .Replace("Ú", "U");
-
-                if (string.Equals(ciudadSinTilde, entradaSinTilde,
-                    StringComparison.OrdinalIgnoreCase))
-                {
-                    return ciudad;
-                }
-            }
-
-            return null;
-        }
         public void BuscarRutaMasBarata(string origen, string destino)
         {
-            string? origenReal = BuscarCiudad(origen);
-            string? destinoReal = BuscarCiudad(destino);
+            string? origenReal = BuscarAeropuerto(origen);
+            string? destinoReal = BuscarAeropuerto(destino);
 
             if (origenReal == null || destinoReal == null)
             {
-                Console.WriteLine("Una de las ciudades no existe en el grafo.");
+                Console.WriteLine("Uno de los aeropuertos no existe.");
                 return;
             }
 
-            Dictionary<string, double> distancias = new Dictionary<string, double>();
-            Dictionary<string, string?> anteriores = new Dictionary<string, string?>();
+            Dictionary<string, double> distancias =
+                new Dictionary<string, double>();
 
-            foreach (string ciudad in listaAdyacencia.Keys)
+            Dictionary<string, string?> anteriores =
+                new Dictionary<string, string?>();
+
+            foreach (string aeropuerto in listaAdyacencia.Keys)
             {
-                distancias[ciudad] = double.MaxValue;
-                anteriores[ciudad] = null;
+                distancias[aeropuerto] = double.MaxValue;
+                anteriores[aeropuerto] = null;
             }
 
             distancias[origenReal] = 0;
@@ -279,37 +291,37 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             while (visitados.Count < listaAdyacencia.Count)
             {
-                string ciudadActual = "";
+                string aeropuertoActual = "";
                 double menorDistancia = double.MaxValue;
 
-                foreach (string ciudad in listaAdyacencia.Keys)
+                foreach (string aeropuerto in listaAdyacencia.Keys)
                 {
-                    if (!visitados.Contains(ciudad) &&
-                        distancias[ciudad] < menorDistancia)
+                    if (!visitados.Contains(aeropuerto) &&
+                        distancias[aeropuerto] < menorDistancia)
                     {
-                        menorDistancia = distancias[ciudad];
-                        ciudadActual = ciudad;
+                        menorDistancia = distancias[aeropuerto];
+                        aeropuertoActual = aeropuerto;
                     }
                 }
 
-                if (ciudadActual == "")
+                if (aeropuertoActual == "")
                 {
                     break;
                 }
 
-                visitados.Add(ciudadActual);
+                visitados.Add(aeropuertoActual);
 
-                foreach (Vuelo vuelo in listaAdyacencia[ciudadActual])
+                foreach (Vuelo vuelo in listaAdyacencia[aeropuertoActual])
                 {
                     if (!visitados.Contains(vuelo.Destino))
                     {
                         double nuevaDistancia =
-                            distancias[ciudadActual] + vuelo.Precio;
+                            distancias[aeropuertoActual] + vuelo.Precio;
 
                         if (nuevaDistancia < distancias[vuelo.Destino])
                         {
                             distancias[vuelo.Destino] = nuevaDistancia;
-                            anteriores[vuelo.Destino] = ciudadActual;
+                            anteriores[vuelo.Destino] = aeropuertoActual;
                         }
                     }
                 }
@@ -317,38 +329,80 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
 
             if (distancias[destinoReal] == double.MaxValue)
             {
-                Console.WriteLine("No existe una ruta entre las ciudades indicadas.");
+                Console.WriteLine(
+                    "No existe una ruta entre los aeropuertos indicados."
+                );
+
                 return;
             }
 
             List<string> ruta = new List<string>();
-            string? ciudadRuta = destinoReal;
 
-            while (ciudadRuta != null)
+            string? aeropuertoRuta = destinoReal;
+
+            while (aeropuertoRuta != null)
             {
-                ruta.Add(ciudadRuta);
-                ciudadRuta = anteriores[ciudadRuta];
+                ruta.Add(aeropuertoRuta);
+                aeropuertoRuta = anteriores[aeropuertoRuta];
             }
 
             ruta.Reverse();
 
-            Console.WriteLine($"Ruta más barata: {string.Join(" -> ", ruta)}");
-            Console.WriteLine($"Costo total: ${distancias[destinoReal]:F2}");
-        }
-        public int ObtenerCantidadCiudades()
-        {
-            return listaAdyacencia.Count;
-        }
-        public int ObtenerCantidadVuelos()
-        {
-            int cantidad = 0;
+            Console.WriteLine();
+            Console.WriteLine("RESULTADO DE LA BÚSQUEDA");
+            Console.WriteLine("--------------------------------");
 
-            foreach (List<Vuelo> vuelos in listaAdyacencia.Values)
+            Console.WriteLine(
+                $"Origen: {origenReal} - {nombresAeropuertos[origenReal]}"
+            );
+
+            Console.WriteLine(
+                $"Destino: {destinoReal} - {nombresAeropuertos[destinoReal]}"
+            );
+
+            Console.WriteLine();
+
+            Console.Write("Ruta más económica: ");
+
+            for (int i = 0; i < ruta.Count; i++)
             {
-                cantidad += vuelos.Count;
+                string codigo = ruta[i];
+
+                Console.Write($"{codigo}");
+
+                if (i < ruta.Count - 1)
+                {
+                    Console.Write(" → ");
+                }
             }
 
-            return cantidad;
+            Console.WriteLine();
+
+            Console.WriteLine(
+                $"Precio total: ${distancias[destinoReal]:F2}"
+            );
+        }
+
+        // ==============================
+        // BÚSQUEDA DE AEROPUERTO
+        // ==============================
+
+        private string? BuscarAeropuerto(string codigo)
+        {
+            string entrada = codigo.Trim();
+
+            foreach (string codigoReal in listaAdyacencia.Keys)
+            {
+                if (string.Equals(
+                    codigoReal,
+                    entrada,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    return codigoReal;
+                }
+            }
+
+            return null;
         }
     }
 }
