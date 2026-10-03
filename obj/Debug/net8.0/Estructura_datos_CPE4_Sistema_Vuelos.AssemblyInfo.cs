@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Estructura_datos_CPE4_Sistema_Vuelos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4b3ee6a93f51680924ddcd2af4875ab8834b903")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1619bdca7fc18b4690d29cb60deb4d58b1afdbb3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Estructura_datos_CPE4_Sistema_Vuelos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Estructura_datos_CPE4_Sistema_Vuelos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -13,3 +13,4 @@ D:\UEA_SF\Estructura de datos\Sistema_de_vuelos_CPE4\Estructura_datos_CPE4_Siste
 D:\UEA_SF\Estructura de datos\Sistema_de_vuelos_CPE4\Estructura_datos_CPE4_Sistema_Vuelos\obj\Debug\net8.0\Estructura_datos_CPE4_Sistema_Vuelos.genruntimeconfig.cache
 D:\UEA_SF\Estructura de datos\Sistema_de_vuelos_CPE4\Estructura_datos_CPE4_Sistema_Vuelos\obj\Debug\net8.0\ref\Estructura_datos_CPE4_Sistema_Vuelos.dll
 D:\UEA_SF\Estructura de datos\Sistema_de_vuelos_CPE4\Estructura_datos_CPE4_Sistema_Vuelos\obj\Debug\net8.0\Estructura_datos_CPE4_Sistema_Vuelos.sourcelink.json
+D:\UEA_SF\Estructura de datos\Sistema_de_vuelos_CPE4\Estructura_datos_CPE4_Sistema_Vuelos\bin\Debug\net8.0\imagenes\graph.png

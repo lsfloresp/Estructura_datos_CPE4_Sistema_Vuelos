@@ -57,25 +57,25 @@ do
             break;
 
         case 3:
-            Console.WriteLine("MAPA DE VUELOS");
-            Console.WriteLine("----------------------------------------");
-            Console.WriteLine("UIO - GYE  $45");
-            Console.WriteLine("UIO - CUE  $55");
-            Console.WriteLine("UIO - BOG  $120");
-            Console.WriteLine("GYE - CUE  $50");
-            Console.WriteLine("GYE - BOG  $135");
-            Console.WriteLine();
-            Console.WriteLine("Las conexiones representan vuelos disponibles");
-            Console.WriteLine("entre los aeropuertos registrados.");
-            break;
-        
-        case 0:
-             Console.WriteLine("Saliendo del sistema...");
-            break;
+            string rutaImagen = Path.Combine(
+                AppContext.BaseDirectory,
+                "imagenes",
+                "graph.png"
+            );
 
-            default:
-                Console.WriteLine("Opción no válida.");
-                break;
+            if (File.Exists(rutaImagen))
+            {
+                System.Diagnostics.Process.Start(
+                    "explorer.exe",
+                    $"\"{rutaImagen}\""
+                );
+            }
+            else
+            {
+                Console.WriteLine("No se encontró graph.png.");
+            }
+
+            break;
     }
 
     if (opcion != 0)
