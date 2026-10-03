@@ -32,6 +32,7 @@ do
     Console.WriteLine("5. Buscar caminos entre ciudades");
     Console.WriteLine("6. Buscar vuelo más barato");
     Console.WriteLine("7. Buscar ruta más barata");
+    Console.WriteLine("8. Mostrar reporte del sistema");
     Console.WriteLine("0. Salir");
     Console.WriteLine("==========================================");
     Console.Write("Seleccione una opción: ");
@@ -125,6 +126,19 @@ do
             string destinoRuta = Console.ReadLine()!.Trim();
 
             grafo.BuscarRutaMasBarata(origenRuta, destinoRuta);
+            break;
+        
+        case 8:
+            Console.WriteLine("REPORTE DEL SISTEMA");
+            Console.WriteLine("------------------------------------------");
+
+            Console.WriteLine($"Cantidad de ciudades: {grafo.ObtenerCantidadCiudades()}");
+            Console.WriteLine($"Cantidad de vuelos: {grafo.ObtenerCantidadVuelos()}");
+
+            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("Tipo de grafo: Dirigido y ponderado");
+            Console.WriteLine("Representación: Lista de adyacencia");
+
             break;
 
         case 0:

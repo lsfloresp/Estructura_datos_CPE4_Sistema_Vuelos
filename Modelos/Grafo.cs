@@ -335,5 +335,20 @@ namespace Estructura_datos_CPE4_Sistema_Vuelos.Modelos
             Console.WriteLine($"Ruta más barata: {string.Join(" -> ", ruta)}");
             Console.WriteLine($"Costo total: ${distancias[destinoReal]:F2}");
         }
+        public int ObtenerCantidadCiudades()
+        {
+            return listaAdyacencia.Count;
+        }
+        public int ObtenerCantidadVuelos()
+        {
+            int cantidad = 0;
+
+            foreach (List<Vuelo> vuelos in listaAdyacencia.Values)
+            {
+                cantidad += vuelos.Count;
+            }
+
+            return cantidad;
+        }
     }
 }
